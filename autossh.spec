@@ -7,6 +7,7 @@ License:	GPL
 Group:		Applications/Networking
 Vendor:		Carson Harding <carson.harding@shaw.ca>
 Source0:	http://www.harding.motd.ca/autossh/%{name}-%{version}.tgz
+# Source0-md5:	f812557fbdd9b24cbf41f0a09bade07f
 URL:		http://www.harding.motd.ca/autossh/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
