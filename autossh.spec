@@ -1,7 +1,7 @@
 Summary:	Automatically restart SSH sessions and tunnels
 Summary(pl):	Automatyczny restart sesji i tuneli SSH
 Name:		autossh
-Version:	1.2b
+Version:	1.2c
 Release:	1
 License:	GPL
 Group:		Applications/Networking
