@@ -20,6 +20,18 @@ off on rate of connection attempts when experiencing rapid failures
 such as connection refused. Compiled and tested on OpenBSD, Linux, and
 Solaris; should work fine on other BSDs (except Mac OS 10).
 
+%description -l pl
+autossh jest programem uruchamiaj±cym kopiê ssh i monitoruj±cym j±,
+restartuj±c w miarê potrzeby, je¶li umrze lub przestanie przekazywaæ
+ruch. Idea i mechanizm pochodz± z rstunnela (Reliable SSH Tunnel), ale
+zaimplementowano je w C. Wed³ug autora nie trzeba siê tak patyczkowaæ,
+jak z rstunnelem, aby go uruchomiæ. Monitorowanie po³±czenia u¿ywa
+pêtli przekazywania portów. Czêstotliwo¶æ prób po³±czeñ jest
+zmniejszana w przypadku napotkania nag³ych awarii, takich jak
+odrzucenie po³±czenia. Program skompilowano i sprawdzono na OpenBSD,
+Linuksie i Solarisie; powinien dzia³aæ tak¿e na innych BSD (oprócz
+MacOS 10).
+
 %prep
 %setup -q -n %{name}-%{version}
 
