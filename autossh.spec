@@ -1,13 +1,13 @@
 Summary:	Automatically restart SSH sessions and tunnels
 Summary(pl):	Automatyczny restart sesji i tuneli SSH
 Name:		autossh
-Version:	1.2f
+Version:	1.2g
 Release:	1
 License:	GPL
 Group:		Applications/Networking
 Vendor:		Carson Harding <carson.harding@shaw.ca>
 Source0:	http://www.harding.motd.ca/autossh/%{name}-%{version}.tgz
-# Source0-md5:	f812557fbdd9b24cbf41f0a09bade07f
+# Source0-md5:	2422e7dbcc21a48dfc325ceb974c9345
 URL:		http://www.harding.motd.ca/autossh/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
