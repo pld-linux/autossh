@@ -34,7 +34,7 @@ Linuksie i Solarisie; powinien dzia³aæ tak¿e na innych BSD (oprócz
 MacOS 10).
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 
 %build
 %{__make} -f Makefile.linux
