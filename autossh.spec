@@ -1,5 +1,5 @@
 Summary:	Automatically restart SSH sessions and tunnels
-Summary(pl):	Automatyczny restart sesji i tuneli SSH
+Summary(pl.UTF-8):   Automatyczny restart sesji i tuneli SSH
 Name:		autossh
 Version:	1.4a
 Release:	1
@@ -21,16 +21,16 @@ off on rate of connection attempts when experiencing rapid failures
 such as connection refused. Compiled and tested on OpenBSD, Linux, and
 Solaris; should work fine on other BSDs (except Mac OS 10).
 
-%description -l pl
-autossh jest programem uruchamiaj±cym kopiê ssh i monitoruj±cym j±,
-restartuj±c w miarê potrzeby, je¶li umrze lub przestanie przekazywaæ
-ruch. Idea i mechanizm pochodz± z rstunnela (Reliable SSH Tunnel), ale
-zaimplementowano je w C. Wed³ug autora nie trzeba siê tak patyczkowaæ,
-jak z rstunnelem, aby go uruchomiæ. Monitorowanie po³±czenia u¿ywa
-pêtli przekazywania portów. Czêstotliwo¶æ prób po³±czeñ jest
-zmniejszana w przypadku napotkania nag³ych awarii, takich jak
-odrzucenie po³±czenia. Program skompilowano i sprawdzono na OpenBSD,
-Linuksie i Solarisie; powinien dzia³aæ tak¿e na innych BSD (oprócz
+%description -l pl.UTF-8
+autossh jest programem uruchamiajÄ…cym kopiÄ™ ssh i monitorujÄ…cym jÄ…,
+restartujÄ…c w miarÄ™ potrzeby, jeÅ›li umrze lub przestanie przekazywaÄ‡
+ruch. Idea i mechanizm pochodzÄ… z rstunnela (Reliable SSH Tunnel), ale
+zaimplementowano je w C. WedÅ‚ug autora nie trzeba siÄ™ tak patyczkowaÄ‡,
+jak z rstunnelem, aby go uruchomiÄ‡. Monitorowanie poÅ‚Ä…czenia uÅ¼ywa
+pÄ™tli przekazywania portÃ³w. CzÄ™stotliwoÅ›Ä‡ prÃ³b poÅ‚Ä…czeÅ„ jest
+zmniejszana w przypadku napotkania nagÅ‚ych awarii, takich jak
+odrzucenie poÅ‚Ä…czenia. Program skompilowano i sprawdzono na OpenBSD,
+Linuksie i Solarisie; powinien dziaÅ‚aÄ‡ takÅ¼e na innych BSD (oprÃ³cz
 MacOS 10).
 
 %prep
