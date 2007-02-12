@@ -1,5 +1,5 @@
 Summary:	Automatically restart SSH sessions and tunnels
-Summary(pl.UTF-8):   Automatyczny restart sesji i tuneli SSH
+Summary(pl.UTF-8):	Automatyczny restart sesji i tuneli SSH
 Name:		autossh
 Version:	1.4a
 Release:	1
