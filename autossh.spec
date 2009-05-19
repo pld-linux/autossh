@@ -5,12 +5,12 @@ Version:	1.4b
 Release:	2
 License:	GPL
 Group:		Applications/Networking
-Vendor:		Carson Harding <carson.harding@shaw.ca>
 Source0:	http://www.harding.motd.ca/autossh/%{name}-%{version}.tgz
 Source1:	%{name}.init
 Source2:	%{name}.tab
 # Source0-md5:	8f9aa006f6f69e912d3c2f504622d6f7
 URL:		http://www.harding.motd.ca/autossh/
+Requires:	openssh-clients
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -39,32 +39,33 @@ MacOS 10).
 Summary:	autossh configuration as system service
 Summary(pl.UTF-8):	konfiguracja autossh jako usługi systemowej
 Group:		Networking/Daemons
-Requires(post,preun):   /sbin/chkconfig
+Requires(post,preun):	/sbin/chkconfig
 Requires:	autossh = %{epoch}:%{version}-%{release}
 Requires:	awk
 Requires:	rc-scripts >= 0.4.0.20
 
 %description init
-this package contains init script and example configuration file, that allows
-to run autossh as Unix system service.
+this package contains init script and example configuration file, that
+allows to run autossh as Unix system service.
 
 %description init -l pl.UTF-8
-Ten pakiet zawiera skrypt startowy oraz przykładowy plik konfiguracyjny, które
-pozwalają uruchamić autossh jako uniksową usługę systemową.
+Ten pakiet zawiera skrypt startowy oraz przykładowy plik
+konfiguracyjny, które pozwalają uruchamić autossh jako uniksową usługę
+systemową.
 
 %prep
 %setup -q
 
 %build
 %configure
-%{__make} 
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/var/run/%{name},%{_bindir},%{_mandir}/man1}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
-install %{SOURCE2} $RPM_BUILD_ROOT/etc/autossh.tab
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/autossh.tab
 
 install autossh $RPM_BUILD_ROOT%{_bindir}
 install autossh.1 $RPM_BUILD_ROOT%{_mandir}/man1
@@ -90,6 +91,6 @@ fi
 
 %files init
 %defattr(644,root,root,755)
-%config(noreplace) %verify(not md5 mtime size) /etc/%{name}.tab
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}.tab
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
 %dir /var/run/autossh
