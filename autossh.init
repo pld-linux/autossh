@@ -1,0 +1,127 @@
+#!/bin/sh
+#
+# autossh	ssh sessions manager
+#
+# chkconfig:	345 82 18
+#
+# description:	ssh sessions manager
+#
+# processname:	autossh
+# config:	/etc/sysconfig/autossh
+# pidfile:
+#
+# $Id$
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+# Get network config
+. /etc/sysconfig/network
+
+# Set defaults
+AUTOSSH_PORT=0	   # connection monitoring port. 0 turns the monitoring function off.
+AUTOSSH_LOGLEVEL=7
+
+# Get service config - may override defaults
+[ -f /etc/sysconfig/autossh ] && . /etc/sysconfig/autossh
+
+export AUTOSSH_LOGLEVEL
+
+# Check that networking is up.
+if is_yes "${NETWORKING}"; then
+	if [ ! -f /var/lock/subsys/network -a "$1" != stop -a "$1" != status ]; then
+		msg_network_down autossh
+		exit 1
+	fi
+else
+	exit 0
+fi
+
+start() {
+	# Check if the service is already running?
+	if [ -f /var/lock/subsys/autossh ]; then
+		msg_already_running autossh
+		return
+	fi
+
+	# Parse autossh.tab file
+	# /^[^#$]/ - removes comments, i.e. lines begining with '#' and empty lines.
+	for I in $(awk -vFS=';' '/^[^#$]/ {print $1}' /etc/autossh.tab); do
+		msg_starting "autossh $I"
+		AUTOSSH_PIDFILE=/var/run/autossh/$I.pid $(awk -vFS=';' "-vport=$AUTOSSH_PORT" "/^$I;/ "'{printf("daemon autossh -M%s -fN %s\n", port, $2)}' /etc/autossh.tab)
+	done
+
+	# XXX How to detect errors?
+	touch /var/lock/subsys/autossh
+}
+
+stop() {
+	if [ ! -f /var/lock/subsys/autossh ]; then
+		msg_not_running autossh
+		return
+	fi
+
+	# Stop daemons.
+	for I in /var/run/autossh/*.pid; do
+	  msg_stopping "autossh session $(basename $I)"
+	  killproc --pidfile $I autossh -TERM
+	done
+	rm -f /var/lock/subsys/autossh
+}
+
+reload() {
+	if [ ! -f /var/lock/subsys/autossh ]; then
+		msg_not_running autossh
+		RETVAL=7
+		return
+	fi
+
+	msg_reloading autossh
+	for I in /var/run/autossh/*.pid; do
+	  killproc --pidfile $I autossh -USR1
+	done
+	# XXX How to detect errors?
+	# RETVAL=$?
+	RETVAL=0
+}
+
+condrestart() {
+	if [ ! -f /var/lock/subsys/autossh ]; then
+		msg_not_running autossh
+		RETVAL=$1
+		return
+	fi
+
+	stop
+	start
+}
+
+RETVAL=0
+# See how we were called.
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  restart)
+	stop
+	start
+	;;
+  try-restart)
+	condrestart 0
+	;;
+  reload|force-reload)
+  	reload
+	;;
+  status)
+	status autossh
+	RETVAL=$?
+	;;
+  *)
+	msg_usage "$0 {start|stop|restart|try-restart|reload|force-reload|status}"
+	exit 3
+esac
+
+exit $RETVAL
