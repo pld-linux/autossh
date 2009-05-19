@@ -2,11 +2,13 @@ Summary:	Automatically restart SSH sessions and tunnels
 Summary(pl.UTF-8):	Automatyczny restart sesji i tuneli SSH
 Name:		autossh
 Version:	1.4b
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/Networking
 Vendor:		Carson Harding <carson.harding@shaw.ca>
 Source0:	http://www.harding.motd.ca/autossh/%{name}-%{version}.tgz
+Source1:	%{name}.init
+Source2:	%{name}.tab
 # Source0-md5:	8f9aa006f6f69e912d3c2f504622d6f7
 URL:		http://www.harding.motd.ca/autossh/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -33,6 +35,23 @@ odrzucenie połączenia. Program skompilowano i sprawdzono na OpenBSD,
 Linuksie i Solarisie; powinien działać także na innych BSD (oprócz
 MacOS 10).
 
+%package init
+Summary:	autossh configuration as system service
+Summary(pl.UTF-8):	konfiguracja autossh jako usługi systemowej
+Group:		Networking/Daemons
+Requires(post,preun):   /sbin/chkconfig
+Requires:	autossh = %{epoch}:%{version}-%{release}
+Requires:	awk
+Requires:	rc-scripts >= 0.4.0.20
+
+%description init
+this package contains init script and example configuration file, that allows
+to run autossh as Unix system service.
+
+%description init -l pl.UTF-8
+Ten pakiet zawiera skrypt startowy oraz przykładowy plik konfiguracyjny, które
+pozwalają uruchamić autossh jako uniksową usługę systemową.
+
 %prep
 %setup -q
 
@@ -42,7 +61,10 @@ MacOS 10).
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man1}
+install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/var/run/%{name},%{_bindir},%{_mandir}/man1}
+
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/autossh.tab
 
 install autossh $RPM_BUILD_ROOT%{_bindir}
 install autossh.1 $RPM_BUILD_ROOT%{_mandir}/man1
@@ -50,8 +72,24 @@ install autossh.1 $RPM_BUILD_ROOT%{_mandir}/man1
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+/sbin/chkconfig --add autossh
+%service autossh restart "autossh"
+
+%preun
+if [ "$1" = "0" ]; then
+	%service autossh stop
+	/sbin/chkconfig --del autossh
+fi
+
 %files
 %defattr(644,root,root,755)
 %doc README CHANGES autossh.host rscreen
-%attr(755,root,root) %{_bindir}/*
-%{_mandir}/man1/*
+%attr(755,root,root) %{_bindir}/autossh
+%{_mandir}/man1/autossh.1*
+
+%files init
+%defattr(644,root,root,755)
+%config(noreplace) %verify(not md5 mtime size) /etc/%{name}.tab
+%attr(754,root,root) /etc/rc.d/init.d/%{name}
+%dir /var/run/autossh
