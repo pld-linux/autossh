@@ -2,5 +2,5 @@
 # lines begining with '#' are comments. So do emty lines
 
 # Example entries:
-# example.com;-L1111:b.example.com:2222 -L8080:c.example.com:8080 -R22:d.example.com:2222 username@example.com
+# example.com;-L1111:b.example.com:2222 -L8080:c.example.com:8080 -R2222:d.example.com:22 username@example.com
 # example.net;-L2222:somwhere-else.us:3333 -lusername -p2222 example.net
