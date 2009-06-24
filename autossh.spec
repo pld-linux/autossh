@@ -73,11 +73,11 @@ install autossh.1 $RPM_BUILD_ROOT%{_mandir}/man1
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
+%post init
 /sbin/chkconfig --add autossh
 %service autossh restart "autossh"
 
-%preun
+%preun init
 if [ "$1" = "0" ]; then
 	%service autossh stop
 	/sbin/chkconfig --del autossh
