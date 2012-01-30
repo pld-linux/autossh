@@ -2,12 +2,13 @@ Summary:	Automatically restart SSH sessions and tunnels
 Summary(pl.UTF-8):	Automatyczny restart sesji i tuneli SSH
 Name:		autossh
 Version:	1.4b
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/Networking
 Source0:	http://www.harding.motd.ca/autossh/%{name}-%{version}.tgz
 Source1:	%{name}.init
 Source2:	%{name}.tab
+Source3:	%{name}.tmpfiles
 # Source0-md5:	8f9aa006f6f69e912d3c2f504622d6f7
 URL:		http://www.harding.motd.ca/autossh/
 Requires:	openssh-clients
@@ -62,10 +63,12 @@ systemową.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/var/run/%{name},%{_bindir},%{_mandir}/man1}
+install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/var/run/%{name},%{_bindir},%{_mandir}/man1} \
+	$RPM_BUILD_ROOT/usr/lib/tmpfiles.d
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/autossh.tab
+install %{SOURCE3} $RPM_BUILD_ROOT/usr/lib/tmpfiles.d/%{name}.conf
 
 install autossh $RPM_BUILD_ROOT%{_bindir}
 install autossh.1 $RPM_BUILD_ROOT%{_mandir}/man1
@@ -93,4 +96,5 @@ fi
 %defattr(644,root,root,755)
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}.tab
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
+/usr/lib/tmpfiles.d/%{name}.conf
 %dir /var/run/autossh
