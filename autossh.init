@@ -8,7 +8,6 @@
 #
 # processname:	autossh
 # config:	/etc/sysconfig/autossh
-# pidfile:
 #
 # $Id$
 
