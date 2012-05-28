@@ -1,3 +1,5 @@
+# TODO:
+# - --with-ssh=/usr/bin/ssh does has no effect, it still tries to find ssh from $PATH and fail
 Summary:	Automatically restart SSH sessions and tunnels
 Summary(pl.UTF-8):	Automatyczny restart sesji i tuneli SSH
 Name:		autossh
@@ -59,8 +61,8 @@ systemową.
 %setup -q
 
 %build
-%configure \
-	--with-ssh=/usr/bin/ssh
+ac_cv_path_ssh=/usr/bin/ssh \
+%configure
 %{__make}
 
 %install
