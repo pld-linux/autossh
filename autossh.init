@@ -45,6 +45,7 @@ start() {
 
 	# Parse autossh.tab file
 	# /^[^#$]/ - removes comments, i.e. lines begining with '#' and empty lines.
+	local I
 	for I in $(awk -vFS=';' '/^[^#$]/ {print $1}' /etc/autossh.tab); do
 		msg_starting "autossh $I"
 		AUTOSSH_PIDFILE=/var/run/autossh/$I.pid $(awk -vFS=';' "-vport=$AUTOSSH_PORT" "/^$I;/ "'{printf("daemon autossh -M%s -fN %s\n", port, $2)}' /etc/autossh.tab)
@@ -76,6 +77,7 @@ reload() {
 	fi
 
 	msg_reloading autossh
+	local I
 	for I in /var/run/autossh/*.pid; do
 	  killproc --pidfile $I autossh -USR1
 	done
