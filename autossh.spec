@@ -11,6 +11,7 @@ Source1:	%{name}.init
 Source2:	%{name}.tab
 Source3:	%{name}.tmpfiles
 URL:		http://www.harding.motd.ca/autossh/
+BuildRequires:	rpmbuild(macros) >= 1.647
 Requires:	openssh-clients
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -41,7 +42,7 @@ Summary:	autossh configuration as system service
 Summary(pl.UTF-8):	konfiguracja autossh jako usługi systemowej
 Group:		Networking/Daemons
 Requires(post,preun):	/sbin/chkconfig
-Requires:	autossh = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 Requires:	awk
 Requires:	rc-scripts >= 0.4.0.20
 
@@ -65,11 +66,11 @@ systemową.
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/var/run/%{name},%{_bindir},%{_mandir}/man1} \
-	$RPM_BUILD_ROOT/usr/lib/tmpfiles.d
+	$RPM_BUILD_ROOT%{systemdtmpfilesdir}
 
 install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
 cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/autossh.tab
-cp -p %{SOURCE3} $RPM_BUILD_ROOT/usr/lib/tmpfiles.d/%{name}.conf
+cp -p %{SOURCE3} $RPM_BUILD_ROOT%{systemdtmpfilesdir}/%{name}.conf
 
 install -p autossh $RPM_BUILD_ROOT%{_bindir}
 cp -p autossh.1 $RPM_BUILD_ROOT%{_mandir}/man1
@@ -97,5 +98,5 @@ fi
 %defattr(644,root,root,755)
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}.tab
 %attr(754,root,root) /etc/rc.d/init.d/%{name}
-/usr/lib/tmpfiles.d/%{name}.conf
+%{systemdtmpfilesdir}/%{name}.conf
 %dir /var/run/autossh
