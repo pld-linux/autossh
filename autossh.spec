@@ -58,7 +58,8 @@ systemową.
 %setup -q
 
 %build
-%configure
+%configure \
+	--with-ssh=/usr/bin/ssh
 %{__make}
 
 %install
@@ -66,12 +67,12 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/var/run/%{name},%{_bindir},%{_mandir}/man1} \
 	$RPM_BUILD_ROOT/usr/lib/tmpfiles.d
 
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/autossh.tab
-install %{SOURCE3} $RPM_BUILD_ROOT/usr/lib/tmpfiles.d/%{name}.conf
+install -p %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/%{name}
+cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/autossh.tab
+cp -p %{SOURCE3} $RPM_BUILD_ROOT/usr/lib/tmpfiles.d/%{name}.conf
 
-install autossh $RPM_BUILD_ROOT%{_bindir}
-install autossh.1 $RPM_BUILD_ROOT%{_mandir}/man1
+install -p autossh $RPM_BUILD_ROOT%{_bindir}
+cp -p autossh.1 $RPM_BUILD_ROOT%{_mandir}/man1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
