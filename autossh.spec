@@ -42,7 +42,7 @@ Summary:	autossh configuration as system service
 Summary(pl.UTF-8):	konfiguracja autossh jako usługi systemowej
 Group:		Networking/Daemons
 Requires(post,preun):	/sbin/chkconfig
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 Requires:	awk
 Requires:	rc-scripts >= 0.4.0.20
 
