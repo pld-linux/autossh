@@ -3,12 +3,12 @@
 Summary:	Automatically restart SSH sessions and tunnels
 Summary(pl.UTF-8):	Automatyczny restart sesji i tuneli SSH
 Name:		autossh
-Version:	1.4c
+Version:	1.4d
 Release:	1
 License:	GPL
 Group:		Applications/Networking
 Source0:	http://www.harding.motd.ca/autossh/%{name}-%{version}.tgz
-# Source0-md5:	26520eea934f296be0783dabe7fcfd28
+# Source0-md5:	89c09b50aa2d57814f808d727e937d0f
 Source1:	%{name}.init
 Source2:	%{name}.tab
 Source3:	%{name}.tmpfiles
