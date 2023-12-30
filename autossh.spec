@@ -1,18 +1,20 @@
 # TODO:
 # - --with-ssh=/usr/bin/ssh does has no effect, it still tries to find ssh from $PATH and fail
+#   (as of 1.4g, configure is older than configure.ac and probably somehow hacked)
 Summary:	Automatically restart SSH sessions and tunnels
 Summary(pl.UTF-8):	Automatyczny restart sesji i tuneli SSH
 Name:		autossh
-Version:	1.4f
+Version:	1.4g
 Release:	1
-License:	GPL
+# autossh.c contains 0-clause BSD, daemon.h 4-clause BSD
+License:	BSD
 Group:		Applications/Networking
-Source0:	http://www.harding.motd.ca/autossh/%{name}-%{version}.tgz
-# Source0-md5:	432ed721a71b8af4b5763b5c484f80df
+Source0:	https://www.harding.motd.ca/autossh/%{name}-%{version}.tgz
+# Source0-md5:	2b804bc1bf6d2f2afaa526d02df7c0a2
 Source1:	%{name}.init
 Source2:	%{name}.tab
 Source3:	%{name}.tmpfiles
-URL:		http://www.harding.motd.ca/autossh/
+URL:		https://www.harding.motd.ca/autossh/
 BuildRequires:	rpmbuild(macros) >= 1.647
 Requires:	openssh-clients
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -61,8 +63,9 @@ systemową.
 %setup -q
 
 %build
-ac_cv_path_ssh=/usr/bin/ssh \
-%configure
+%configure \
+	ac_cv_lib_nsl_gethostbyname=no \
+	ac_cv_path_ssh=/usr/bin/ssh
 %{__make}
 
 %install
